@@ -15,6 +15,7 @@ import 'package:example/src/core/constants.dart';
 import 'package:example/src/views/screens/home.dart';
 import 'package:example/src/views/screens/magic_link.dart';
 import 'package:example/src/views/screens/phone_sign_in.dart';
+import 'package:example/src/views/screens/sign_in_prefilled.dart';
 import 'package:example/src/views/screens/sign_in_up.dart';
 import 'package:example/src/views/screens/splash.dart';
 import 'package:example/src/views/screens/update_password.dart';
@@ -25,6 +26,7 @@ import 'package:go_router/go_router.dart';
 // define the app routes enum with the path for each screen
 enum AppRoute {
   signInUp('/sign_in_up'),
+  signInPrefilled('/sign_in_prefilled'),
   magicLink('/magic_link'),
   updatePassword('/update_password'),
   phoneSignIn('/phone_sign_in'),
@@ -47,12 +49,16 @@ final appRouter = GoRouter(
     final isAuthenticated = user != null;
 
     // If the user is authenticated and trying to access the sign-in page, redirect to home
-    if (isAuthenticated && (state.matchedLocation == AppRoute.signInUp.path || state.matchedLocation == AppRoute.splash.path)) {
+    if (isAuthenticated &&
+        (state.matchedLocation == AppRoute.signInUp.path ||
+            state.matchedLocation == AppRoute.splash.path)) {
       return AppRoute.home.path;
     }
 
     // If the user is not authenticated and trying to access the home page, redirect to sign-in
-    if (!isAuthenticated && (state.matchedLocation == AppRoute.home.path || state.matchedLocation == AppRoute.splash.path)) {
+    if (!isAuthenticated &&
+        (state.matchedLocation == AppRoute.home.path ||
+            state.matchedLocation == AppRoute.splash.path)) {
       return AppRoute.signInUp.path;
     }
 
@@ -70,6 +76,11 @@ final appRouter = GoRouter(
       name: AppRoute.signInUp.name,
       path: AppRoute.signInUp.path,
       builder: (context, state) => const SignInUp(),
+    ),
+    GoRoute(
+      name: AppRoute.signInPrefilled.name,
+      path: AppRoute.signInPrefilled.path,
+      builder: (context, state) => const SignInPrefilled(),
     ),
     GoRoute(
       name: AppRoute.magicLink.name,
