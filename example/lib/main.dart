@@ -1,14 +1,16 @@
 import 'package:example/src/core/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "config.env");
+  final url = dotenv.get('SUPABASE_URL', fallback: '');
+  final anonKey = dotenv.get('SUPABASE_ANON_KEY', fallback: '');
   await Supabase.initialize(
-    url: 'https://yoursupabaseurl.supabase.co',
-    anonKey: 'your_anon_key',
+    url: url,
+    anonKey: anonKey,
   );
   runApp(const MyApp());
 }
